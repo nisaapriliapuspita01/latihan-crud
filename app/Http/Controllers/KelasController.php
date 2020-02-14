@@ -46,7 +46,7 @@ class KelasController extends Controller
     {
         //
         $kelas = new Kelas();
-        $kelas->nama = $request->nama;
+        $kelas->kelas = $request->kelas;
         $kelas->save();
         return redirect()->route('kelas.index');
     }
@@ -88,7 +88,7 @@ class KelasController extends Controller
     {
         //
         $kelas = Kelas::findOrFail($id);
-        $kelas->nama = $request->nama;
+        $kelas->kelas = $request->kelas;
         $kelas->save();
         return redirect()->route('kelas.index');
     }

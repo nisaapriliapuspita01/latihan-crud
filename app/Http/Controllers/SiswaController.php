@@ -2,19 +2,36 @@
 
 namespace App\Http\Controllers;
 
+use App\Kelas;
 use App\Siswa;
+use Directory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
+use DB;
+use App\Mapel;
 
 class SiswaController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     *
      */
+    public function __construct()
+    {
+        return $this->middleware('auth');
+    }
+
     public function index()
     {
-        //
+       // $siswa = DB::table('siswas')
+        //->join('kelas','kelas.id','=','siswas.id_kelas')
+       // ->select('siswas.id','siswas.nis','siswas.nama',
+       // 'siswas.alamat','kelas.kelas')
+       // ->get();
+       //$siswa= Siswa::all();
+       $siswa= Siswa::with('kelas','mapel')->get();
+      return view('siswa.index',compact('siswa'));
     }
 
     /**
@@ -24,7 +41,10 @@ class SiswaController extends Controller
      */
     public function create()
     {
-        //
+        //Menampilkan ke halaman Form Inputs
+        $kelas = Kelas::all();
+        $mapel = Mapel::all();
+        return view('siswa.create', compact('kelas','mapel'));
     }
 
     /**
@@ -36,50 +56,69 @@ class SiswaController extends Controller
     public function store(Request $request)
     {
         //
+        $siswa = new Siswa();
+        $siswa->nis = $request->nis;
+        $siswa->nama = $request->nama;
+        $siswa->alamat = $request->alamat;
+        $siswa->id_kelas = $request->id_kelas;
+        $siswa->save();
+        $siswa->mapel()->attach($request->mapel);
+        return redirect()->route('siswa.index');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Siswa  $siswa
+     * @param  \App\Siswa  $kelas
      * @return \Illuminate\Http\Response
      */
-    public function show(Siswa $siswa)
+    public function show($id)
     {
         //
+        $siswa = Siswa::findOrFail($id);
+        return view('siswa.show', compact('siswa'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Siswa  $siswa
+     * @param  \App\Siswa  $kelas
      * @return \Illuminate\Http\Response
      */
-    public function edit(Siswa $siswa)
+    public function edit($id)
     {
         //
+        $kelas = Kelas::all();
+        $siswa = Siswa::findOrFail($id);
+        $mapel = Mapel::all();
+        return view('siswa.edit', compact('siswa','kelas','mapel'));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Siswa  $siswa
+     * @param  \App\Siswa  $kelas
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Siswa $siswa)
+    public function update(Request $request, $id)
     {
         //
+        $siswa = Siswa::findOrFail($id);
+        $siswa->nis = $request->nis;
+        $siswa->nama = $request->nama;
+        $siswa->alamat = $request->alamat;
+        $siswa->id_kelas = $request->id_kelas;
+        $siswa->save();
+        $siswa->mapel()->sync($request->mapel);
+        return redirect()->route('siswa.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Siswa  $siswa
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Siswa $siswa)
+
+    public function destroy($id)
     {
         //
+        $siswa = Siswa::findOrFail($id)->delete();
+        return redirect()->route('siswa.index');
     }
 }

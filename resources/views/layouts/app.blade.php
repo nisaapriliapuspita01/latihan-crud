@@ -45,7 +45,15 @@
                         Daftar Mata Pelajaran
                     </a>
                         </li>
-                    </ul>
+
+                    <li>
+                        <a class="navbar-brand"
+                    href="{{route('siswa.index')}}">
+                         Daftar Siswa
+                </a>
+                    </li>
+                </ul>
+
 
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
