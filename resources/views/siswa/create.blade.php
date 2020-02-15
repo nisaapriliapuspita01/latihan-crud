@@ -33,11 +33,13 @@
 
                     <div class="form-group">
                         <label for="">Mata Pelajaran</label>
-                        <select name="mape[]" class="form-control" multiple>
+                        <select name="mapel[]" class="form-control" multiple>
+                            <ul>
                             @foreach ($mapel as $data)
                         <option value="{{$data->id}}">{{ $data->nama }}</option>
                             @endforeach
                         </select>
+                    </ul>
 
                     <div class="form-group">
                         <button type="submit" class="btn btn-primary">Simpan</button>

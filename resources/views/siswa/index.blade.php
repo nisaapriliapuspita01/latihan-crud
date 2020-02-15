@@ -40,12 +40,13 @@
                                     <td> {{$data->nis }}</td>
                                     <td> {{$data->nama }}</td>
                                     <td> {{$data->alamat }}</td>
-                                    <td> {{$data->kelas }}</td>
+                                    <td> {{$data->kelas->kelas }}</td>
                                     <td>
                                         @foreach ($data->mapel as $value)
                                         <li>{{ $value->nama }}</li>
-
+                                    </td>
                                         @endforeach
+                                        <td>
                                     <a href="{{route('siswa.show',$data->id)}}" class="btn btn-info"> Show </a>
                                     </td>
                                     <td>

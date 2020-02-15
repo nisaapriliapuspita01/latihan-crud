@@ -26,7 +26,7 @@
                     </div>
 
 
-                    <div class="form-group">
+                    <div class='form-group'>
                         <a href="{{ url()->previous() }}"  class="btn btn-primary">Kembali</a></button>
 
                     </div>

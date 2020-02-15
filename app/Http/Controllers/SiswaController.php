@@ -4,9 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Kelas;
 use App\Siswa;
-use Directory;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Redirect;
 use DB;
 use App\Mapel;
 
@@ -91,6 +89,7 @@ class SiswaController extends Controller
         $kelas = Kelas::all();
         $siswa = Siswa::findOrFail($id);
         $mapel = Mapel::all();
+        $selected = $siswa->mapel->pluck('id')->toArray();
         return view('siswa.edit', compact('siswa','kelas','mapel'));
     }
 
